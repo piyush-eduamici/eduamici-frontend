@@ -1,0 +1,123 @@
+:root {
+  --navy-900: #0a1128;
+  --navy-800: #0f1a3d;
+  --navy-700: #16224d;
+  --blue-500: #3b82f6;
+  --blue-400: #60a5fa;
+  --blue-300: #93c5fd;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --purple: #8b5cf6;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-600: #475569;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-light: #94a3b8;
+  --grad-hero: linear-gradient(135deg, #0a1128 0%, #16224d 50%, #1e2d63 100%);
+  --grad-blue: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.10);
+  --shadow-lg: 0 16px 48px rgba(10,17,40,0.18);
+  --t-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { height: 100%; width: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--gray-50);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, textarea { font-family: inherit; outline: none; }
+img { max-width: 100%; display: block; }
+
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+.text-center { text-align: center; }
+.text-white { color: var(--white); }
+.text-light { color: var(--text-light); }
+.w-full { width: 100%; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 12px 24px; border-radius: var(--radius-md);
+  font-weight: 600; font-size: 15px; transition: all var(--t-base);
+  white-space: nowrap;
+}
+.btn:active { transform: scale(0.96); }
+.btn-primary { background: var(--grad-blue); color: var(--white); box-shadow: 0 4px 16px rgba(59,130,246,0.35); }
+.btn-outline { background: transparent; border: 1.5px solid var(--blue-500); color: var(--blue-500); }
+.btn-ghost { background: rgba(255,255,255,0.08); color: var(--white); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); }
+.btn-sm { padding: 8px 16px; font-size: 14px; }
+.btn-lg { padding: 16px 32px; font-size: 17px; }
+
+.card {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 20px; box-shadow: var(--shadow-sm);
+  transition: all var(--t-base); border: 1px solid var(--gray-100);
+}
+.card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+.input {
+  width: 100%; padding: 14px 16px; border-radius: var(--radius-md);
+  border: 1.5px solid var(--gray-200); background: var(--white);
+  font-size: 15px; color: var(--text-primary); transition: all var(--t-base);
+}
+.input:focus { border-color: var(--blue-500); box-shadow: 0 0 0 4px rgba(59,130,246,0.12); }
+
+.gradient-text {
+  background: var(--grad-blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+.animate-fadeIn { animation: fadeIn 0.5s ease; }
+.animate-fadeUp { animation: fadeUp 0.5s ease; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid rgba(59,130,246,0.2);
+  border-top-color: var(--blue-500);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.page-enter { animation: fadeUp 0.4s ease; }
+
+@media (max-width: 768px) {
+  .container { padding: 0 14px; }
+}
