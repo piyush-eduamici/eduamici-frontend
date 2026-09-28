@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const API = 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function QuizBattle() {
   const { user } = useAuth();
@@ -56,8 +56,7 @@ export default function QuizBattle() {
   const showMsg = (t) => { setMsg(t); setTimeout(() => setMsg(''), 2500); };
 
   const createRoom = async () => {
-    if (!selChapter) return showMsg('⚠️ Chapter select karo');
-    if (qTime < 10 || qTime > 300) return showMsg('⚠️ Time 10-300 sec ke beech hona chahiye');
+    if (!selChapter) return showMsg('Chapter select karo');
     setLoading(true);
     try {
       const r = await fetch(API + '/quiz/create', {
@@ -67,13 +66,13 @@ export default function QuizBattle() {
       });
       const d = await r.json();
       if (d.success) navigate('/quiz-room/' + d.room.id);
-      else showMsg('❌ ' + d.message);
-    } catch (e) { showMsg('❌ Server error'); }
+      else showMsg(d.message);
+    } catch (e) { showMsg('Server error'); }
     setLoading(false);
   };
 
   const joinRoom = async () => {
-    if (!code.trim()) return showMsg('⚠️ Room code daalo');
+    if (!code.trim()) return showMsg('Room code daalo');
     setLoading(true);
     try {
       const r = await fetch(API + '/quiz/join', {
@@ -83,25 +82,23 @@ export default function QuizBattle() {
       });
       const d = await r.json();
       if (d.success) navigate('/quiz-room/' + d.room.id);
-      else showMsg('❌ ' + d.message);
-    } catch (e) { showMsg('❌ Server error'); }
+      else showMsg(d.message);
+    } catch (e) { showMsg('Server error'); }
     setLoading(false);
   };
 
   const inputStyle = { width: '100%', padding: 12, borderRadius: 10, border: '1px solid #e2e8f0', marginBottom: 10, fontSize: 14, background: 'white' };
   const btnPrimary = { width: '100%', padding: 14, borderRadius: 12, background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', color: 'white', fontWeight: 700, fontSize: 15, border: 'none', cursor: 'pointer' };
 
-  const timePresets = [10, 15, 20, 30, 45, 60, 90, 120, 180, 300];
-
   return (
     <div className="container" style={{ paddingTop: 24, paddingBottom: 100 }}>
-      <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>⚡ Quiz Battle</h1>
-      <p style={{ color: '#94a3b8', fontSize: 14, marginBottom: 20 }}>Challenge friends — same questions, same timer</p>
+      <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Quiz Battle</h1>
+      <p style={{ color: '#94a3b8', fontSize: 14, marginBottom: 20 }}>Challenge friends - same questions, same timer</p>
 
       {msg && <div style={{ padding: 12, borderRadius: 10, marginBottom: 12, background: '#fee2e2', color: '#b91c1c', fontSize: 13, fontWeight: 600 }}>{msg}</div>}
 
       <div style={{ display: 'flex', gap: 6, marginBottom: 20, background: '#f1f5f9', padding: 4, borderRadius: 12 }}>
-        {[{ id: 'create', label: '🎮 Create' }, { id: 'join', label: '🔗 Join' }].map(t => (
+        {[{ id: 'create', label: 'Create' }, { id: 'join', label: 'Join' }].map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             style={{ flex: 1, padding: 10, borderRadius: 10, fontSize: 13, fontWeight: 700, background: tab === t.id ? 'white' : 'transparent', color: tab === t.id ? '#3b82f6' : '#64748b', border: 'none', cursor: 'pointer' }}>
             {t.label}
@@ -113,7 +110,7 @@ export default function QuizBattle() {
         <div style={{ background: 'white', padding: 20, borderRadius: 16 }}>
           <h3 style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Mode</h3>
           <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-            {[{ id: 'solo', label: '👤 Solo' }, { id: 'team', label: '👥 Team' }].map(m => (
+            {[{ id: 'solo', label: 'Solo' }, { id: 'team', label: 'Team' }].map(m => (
               <button key={m.id} onClick={() => setMode(m.id)}
                 style={{ flex: 1, padding: 12, borderRadius: 10, fontSize: 14, fontWeight: 700, background: mode === m.id ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : '#f1f5f9', color: mode === m.id ? 'white' : '#64748b', border: 'none', cursor: 'pointer' }}>
                 {m.label}
@@ -126,7 +123,7 @@ export default function QuizBattle() {
             {classes.map(c => (
               <button key={c.id} onClick={() => setSelClass(c)}
                 style={{ padding: '10px 16px', borderRadius: 12, fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap', background: selClass?.id === c.id ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : '#f1f5f9', color: selClass?.id === c.id ? 'white' : '#64748b', border: 'none', cursor: 'pointer' }}>
-                {c.emoji} {c.name}
+                {c.name}
               </button>
             ))}
           </div>
@@ -138,7 +135,7 @@ export default function QuizBattle() {
                 {subjects.map(s => (
                   <button key={s.id} onClick={() => setSelSubject(s)}
                     style={{ padding: '10px 16px', borderRadius: 12, fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap', background: selSubject?.id === s.id ? s.color : '#f1f5f9', color: selSubject?.id === s.id ? 'white' : '#64748b', border: 'none', cursor: 'pointer' }}>
-                    {s.emoji} {s.name}
+                    {s.name}
                   </button>
                 ))}
               </div>
@@ -155,70 +152,27 @@ export default function QuizBattle() {
             </>
           )}
 
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 16, marginBottom: 8, textTransform: 'uppercase' }}>⚙️ Settings</h3>
-
-          {/* Questions count */}
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontSize: 12, color: '#64748b', fontWeight: 700, marginBottom: 6, display: 'block' }}>
-              Number of Questions
-            </label>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {[3, 5, 10, 15, 20, 25, 30].map(n => (
-                <button key={n} onClick={() => setQCount(n)}
-                  style={{
-                    padding: '10px 16px', borderRadius: 10, fontSize: 13, fontWeight: 700,
-                    background: qCount === n ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : '#f1f5f9',
-                    color: qCount === n ? 'white' : '#64748b',
-                    border: 'none', cursor: 'pointer', minWidth: 50,
-                  }}>
-                  {n}
-                </button>
-              ))}
+          <div style={{ display: 'flex', gap: 10, marginBottom: 16, marginTop: 12 }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: 11, color: '#64748b', fontWeight: 700 }}>Questions</label>
+              <select value={qCount} onChange={e => setQCount(parseInt(e.target.value))} style={inputStyle}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+              </select>
             </div>
-          </div>
-
-          {/* Time per question */}
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontSize: 12, color: '#64748b', fontWeight: 700, marginBottom: 6, display: 'block' }}>
-              Time per Question: <span style={{ color: '#3b82f6', fontSize: 16 }}>{qTime} sec</span>
-            </label>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-              {timePresets.map(t => (
-                <button key={t} onClick={() => setQTime(t)}
-                  style={{
-                    padding: '10px 14px', borderRadius: 10, fontSize: 13, fontWeight: 700,
-                    background: qTime === t ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : '#f1f5f9',
-                    color: qTime === t ? 'white' : '#64748b',
-                    border: 'none', cursor: 'pointer', minWidth: 55,
-                  }}>
-                  {t}s
-                </button>
-              ))}
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: 11, color: '#64748b', fontWeight: 700 }}>Time/Q</label>
+              <select value={qTime} onChange={e => setQTime(parseInt(e.target.value))} style={inputStyle}>
+                <option value={15}>15s</option>
+                <option value={30}>30s</option>
+                <option value={60}>60s</option>
+              </select>
             </div>
-
-            {/* Custom time input */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 12, background: '#f8fafc', borderRadius: 10 }}>
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700, whiteSpace: 'nowrap' }}>Custom:</span>
-              <input
-                type="number"
-                min={10}
-                max={300}
-                value={qTime}
-                onChange={(e) => {
-                  const v = parseInt(e.target.value) || 0;
-                  setQTime(v);
-                }}
-                style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 16, fontWeight: 800, textAlign: 'center', color: '#3b82f6' }}
-              />
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700 }}>sec</span>
-            </div>
-            <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 6 }}>
-              Min: 10 sec • Max: 300 sec (5 min)
-            </p>
           </div>
 
           <button onClick={createRoom} disabled={loading} style={btnPrimary}>
-            {loading ? 'Creating...' : '🎮 Create Room'}
+            {loading ? 'Creating...' : 'Create Room'}
           </button>
         </div>
       )}
@@ -229,7 +183,7 @@ export default function QuizBattle() {
           <input value={code} onChange={e => setCode(e.target.value.toUpperCase())} placeholder="ABC123"
             style={{ ...inputStyle, textAlign: 'center', fontSize: 24, fontWeight: 800, letterSpacing: 4 }} />
           <button onClick={joinRoom} disabled={loading} style={btnPrimary}>
-            {loading ? 'Joining...' : '🔗 Join Room'}
+            {loading ? 'Joining...' : 'Join Room'}
           </button>
         </div>
       )}
