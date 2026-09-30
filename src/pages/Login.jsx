@@ -30,7 +30,7 @@ export default function Login() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0a1128 0%, #16224d 50%, #1e2d63 100%)', padding: 20 }}>
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ width: '100%', maxWidth: 420, background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 24, padding: 32 }}>
         <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 24, textDecoration: 'none' }}>
-          <img src="/logo.png" alt="EduAmici" style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'contain' }} />
+          <img src="/logo.svg" alt="EduAmici" style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'contain' }} />
           <span style={{ fontWeight: 800, fontSize: 22, color: 'white' }}>EduAmici</span>
         </Link>
         <h1 style={{ color: 'white', fontSize: 26, fontWeight: 800, marginBottom: 6 }}>Welcome back</h1>
