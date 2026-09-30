@@ -25,6 +25,7 @@ import Achievements from './pages/Achievements';
 import Placeholder from './pages/Placeholder';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import BulkUpload from './pages/admin/BulkUpload';
 
 const App = () => (
   <Routes>
@@ -34,6 +35,7 @@ const App = () => (
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/admin" element={<AdminLogin />} />
     <Route path="/admin/dashboard" element={<AdminDashboard />} />
+    <Route path="/admin/bulk" element={<BulkUpload />} />
 
     <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
       <Route path="/dashboard" element={<Dashboard />} />
